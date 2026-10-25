@@ -1,7 +1,7 @@
 // Service worker do Alefoot 26: guarda o jogo no aparelho para abrir sem internet.
 // Estratégia: devolve o que está guardado na hora e busca a versão nova em segundo plano
 // (a versão nova chega em segundo plano; a página avisa e o jogador decide quando recarregar).
-const CACHE = 'alefoot26-20261025164524';
+const CACHE = 'alefoot26-20261025164916';
 const ARQUIVOS = ['./', './index.html', './manifest.webmanifest', './icone-192.png', './icone-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', (ev) => {
