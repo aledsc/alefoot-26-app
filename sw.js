@@ -1,7 +1,7 @@
 // Service worker do Alefoot 26: guarda o jogo no aparelho para abrir sem internet.
 // Estratégia: devolve o que está guardado na hora e busca a versão nova em segundo plano
 // (a versão nova chega em segundo plano; a página avisa e o jogador decide quando recarregar).
-const CACHE = 'alefoot26-20261027140528';
+const CACHE = 'alefoot26-20261027141507';
 const ARQUIVOS = ['./', './index.html', './manifest.webmanifest', './icone-192.png', './icone-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', (ev) => {
@@ -16,7 +16,10 @@ self.addEventListener('activate', (ev) => {
 });
 
 self.addEventListener('fetch', (ev) => {
-  if (ev.request.method !== 'GET' || new URL(ev.request.url).origin !== self.location.origin) return;
+  const url = new URL(ev.request.url);
+  if (ev.request.method !== 'GET' || url.origin !== self.location.origin) return;
+  // o próprio sw.js e o que pede "sem cache" vão direto à rede: é assim que o jogo descobre a versão publicada
+  if (url.pathname.endsWith('/sw.js') || ev.request.cache === 'no-store') return;
   ev.respondWith(
     caches.open(CACHE).then(async (cache) => {
       const guardado = await cache.match(ev.request, { ignoreSearch: true });
